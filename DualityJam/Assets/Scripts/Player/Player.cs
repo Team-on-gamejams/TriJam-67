@@ -8,10 +8,14 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour {
 	[NonSerialized] public ActiveHider currHider;
 
+	[SerializeField] string layerDefault = "Player";
+	[SerializeField] string layerHide = "PlayerHided";
+	[SerializeField] SortingLayer layer;
 	[SerializeField] float moveSpeed = 1.0f;
 	[SerializeField] float jumpForce = 1.0f;
 
-	Rigidbody2D rb;
+	[HideInInspector] [SerializeField] Rigidbody2D rb;
+	[HideInInspector] [SerializeField] SpriteRenderer sp;
 
 	Vector2 m_Look;
 	Vector2 m_Move;
@@ -23,9 +27,14 @@ public class Player : MonoBehaviour {
 	int usedHiders = 0;
 	bool isUseActiveHider = false;
 
-	private void Awake() {
-		rb = GetComponent<Rigidbody2D>();
+	void OnValidate() {
+		if(rb == null)
+			rb = GetComponent<Rigidbody2D>();
+		if(sp == null)
+			sp = GetComponent<SpriteRenderer>();
+	}
 
+	void Awake() {
 		GameManager.instance.player = this;
 	}
 
@@ -47,6 +56,7 @@ public class Player : MonoBehaviour {
 		if (m_Move.sqrMagnitude > 0.5f && isUseActiveHider) {
 			isUseActiveHider = false;
 			currHider.UnHidePlayer();
+			sp.sortingLayerName = layerDefault;
 		}
 	}
 
@@ -61,6 +71,7 @@ public class Player : MonoBehaviour {
 				if (!isUseActiveHider) {
 					isUseActiveHider = true;
 					currHider.HidePlayer();
+					sp.sortingLayerName = layerHide;
 				}
 			}
 		}
@@ -97,10 +108,13 @@ public class Player : MonoBehaviour {
 
 	public void Hide() {
 		++usedHiders;
+		sp.sortingLayerName = layerHide;
 	}
 
 	public void UnHide() {
 		--usedHiders;
+		if(usedHiders == 0)
+			sp.sortingLayerName = layerDefault;
 	}
 
 	public bool IsHided() {
