@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class CallLoadScene : MonoBehaviour {
 	public void CallSceneLoadWithUI(string name) {
-		SceneLoader.Instance.LoadScene(name, true, true);
+		SceneLoader.instance.LoadScene(name, true, true);
 	}
 
 	public void CallSceneLoad(string name) {
-		SceneLoader.Instance.LoadScene(name, false, false);
+		SceneLoader.instance.LoadScene(name, false, false);
 	}
 }

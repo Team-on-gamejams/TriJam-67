@@ -4,16 +4,15 @@ using UnityEngine;
 using TMPro;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class EnemySpotter : MonoBehaviour
-{
-    [SerializeField] float moveSpeed = 2.0f;
-    [SerializeField] bool isFacingRight = true;
+public class EnemySpotter : MonoBehaviour {
+	[SerializeField] float moveSpeed = 2.0f;
+	[SerializeField] bool isFacingRight = true;
 
-    [SerializeField] string seeText = "I see you!";
-    [SerializeField] string notSeeText = "";
+	[SerializeField] string seeText = "I see you!";
+	[SerializeField] string notSeeText = "";
 
-	Rigidbody2D rb;
-    TextMeshProUGUI textField;
+	[HideInInspector] [SerializeField] Rigidbody2D rb;
+	[HideInInspector] [SerializeField] TextMeshProUGUI textField;
 
 	Vector2[] moveVector;
 	Vector3 prevVelosity;
@@ -26,7 +25,7 @@ public class EnemySpotter : MonoBehaviour
 	}
 
 	private void Awake() {
-		moveVector = new Vector2[] { 
+		moveVector = new Vector2[] {
 			new Vector2(moveSpeed, 0),
 			new Vector2(-moveSpeed, 0),
 		};
@@ -39,21 +38,9 @@ public class EnemySpotter : MonoBehaviour
 	}
 
 	private void OnCollisionEnter2D(Collision2D collision) {
-		if(collision.transform.tag == "Wall") {
+		if (collision.transform.tag == "Wall") {
 			Flip();
 			prevVelosity = Vector3.zero;
-		}
-	}
-
-	private void OnTriggerEnter2D(Collider2D collision) {
-		if(collision.tag == "Player") {
-			textField.text = seeText;
-		}
-	}
-
-	private void OnTriggerExit2D(Collider2D collision) {
-		if (collision.tag == "Player") {
-			textField.text = notSeeText;
 		}
 	}
 
@@ -62,15 +49,23 @@ public class EnemySpotter : MonoBehaviour
 		rb.velocity = Vector3.SmoothDamp(rb.velocity, targetVelocity, ref prevVelosity, .05f);
 	}
 
-    private void Flip() {
-        isFacingRight = !isFacingRight;
+	private void Flip() {
+		isFacingRight = !isFacingRight;
 
-        Vector3 theScale = transform.localScale;
-        theScale.x *= -1;
-        transform.localScale = theScale;
+		Vector3 theScale = transform.localScale;
+		theScale.x *= -1;
+		transform.localScale = theScale;
 
 		theScale = textField.transform.localScale;
 		theScale.x *= -1;
 		textField.transform.localScale = theScale;
+	}
+
+	public void OnSpotPlayer() {
+		textField.text = seeText;
+	}
+
+	public void OnPlayerHide() {
+		textField.text = notSeeText;
 	}
 }

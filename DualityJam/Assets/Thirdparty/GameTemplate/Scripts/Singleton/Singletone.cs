@@ -14,7 +14,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour {
 	private static bool isApplicationQuitting = false;
 	private static bool isMovedToDontDestroyOnload = false;
 
-	public static T Instance {
+	public static T instance {
 		get {
 			if (isApplicationQuitting) {
 				Debug.LogWarning($"[Singleton] Instance '{typeof(T)}' already destroyed on application quit. Won't create again - returning null.");

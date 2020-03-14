@@ -14,7 +14,9 @@ public class GameManager : Singleton<GameManager> {
 	}}
 	public EventManager Events { get; private set; }
 
-	public Camera mainCamera;
+	public Player player;
+
+	Camera mainCamera;
 
 	new void Awake() {
 		base.Awake();

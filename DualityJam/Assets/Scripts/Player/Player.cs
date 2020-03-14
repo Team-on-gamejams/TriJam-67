@@ -10,7 +10,6 @@ public class Player : MonoBehaviour {
 
 	Rigidbody2D rb;
 
-	Vector2 m_Rotation;
 	Vector2 m_Look;
 	Vector2 m_Move;
 
@@ -18,8 +17,12 @@ public class Player : MonoBehaviour {
 	bool isGrounded = true;
 	bool isFacingRight = true;
 
+	int usedHiders = 0;
+
 	private void Awake() {
 		rb = GetComponent<Rigidbody2D>();
+
+		GameManager.instance.player = this;
 	}
 
 	private void OnCollisionEnter2D(Collision2D collision) {
@@ -28,10 +31,19 @@ public class Player : MonoBehaviour {
 		}
 	}
 
-
-	public void FixedUpdate() {
+	void FixedUpdate() {
 		Look(m_Look);
 		Move(m_Move);
+	}
+
+	public void OnMove(InputAction.CallbackContext context) {
+		m_Move = context.ReadValue<Vector2>();
+		if (m_Move.y < 0)
+			m_Move.y = 0;
+	}
+
+	public void OnLook(InputAction.CallbackContext context) {
+		m_Look = context.ReadValue<Vector2>();
 	}
 
 	private void Move(Vector2 direction) {
@@ -55,21 +67,23 @@ public class Player : MonoBehaviour {
 
 	}
 
-	public void OnMove(InputAction.CallbackContext context) {
-		m_Move = context.ReadValue<Vector2>();
-		if (m_Move.y < 0)
-			m_Move.y = 0;
-	}
-
-	public void OnLook(InputAction.CallbackContext context) {
-		m_Look = context.ReadValue<Vector2>();
-	}
-
 	private void Flip() {
 		isFacingRight = !isFacingRight;
 
 		Vector3 theScale = transform.localScale;
 		theScale.x *= -1;
 		transform.localScale = theScale;
+	}
+
+	public void Hide() {
+		++usedHiders;
+	}
+
+	public void UnHide() {
+		--usedHiders;
+	}
+
+	public bool IsHided() {
+		return usedHiders != 0;
 	}
 }

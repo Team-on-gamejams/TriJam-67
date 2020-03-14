@@ -52,13 +52,13 @@ public class SceneLoader : Singleton<SceneLoader> {
 		eventData.Data.Add("needUI", needUI);
 		if(needUI)
 			eventData.Data.Add("uiNeedDelay", uiNeedDelay);
-		GameManager.Instance.Events.CallOnSceneLoadStart(eventData);
+		GameManager.instance.Events.CallOnSceneLoadStart(eventData);
 
 		loader.completed += (a) => {
 			EventData eventData_ = new EventData("OnSceneLoadStart");
 			eventData_.Data.Add("id", id);
 			eventData_.Data.Add("loader", loader);
-			GameManager.Instance.Events.CallOnSceneLoadEnd(eventData_);
+			GameManager.instance.Events.CallOnSceneLoadEnd(eventData_);
 		};
 	}
 }
