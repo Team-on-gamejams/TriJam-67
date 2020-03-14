@@ -1,10 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player : MonoBehaviour {
+	[NonSerialized] public ActiveHider currHider;
+
 	[SerializeField] float moveSpeed = 1.0f;
 	[SerializeField] float jumpForce = 1.0f;
 
@@ -18,6 +21,7 @@ public class Player : MonoBehaviour {
 	bool isFacingRight = true;
 
 	int usedHiders = 0;
+	bool isUseActiveHider = false;
 
 	private void Awake() {
 		rb = GetComponent<Rigidbody2D>();
@@ -40,10 +44,26 @@ public class Player : MonoBehaviour {
 		m_Move = context.ReadValue<Vector2>();
 		if (m_Move.y < 0)
 			m_Move.y = 0;
+		if (m_Move.sqrMagnitude > 0.5f && isUseActiveHider) {
+			isUseActiveHider = false;
+			currHider.UnHidePlayer();
+		}
 	}
 
 	public void OnLook(InputAction.CallbackContext context) {
 		m_Look = context.ReadValue<Vector2>();
+	}
+
+	public void OnInteract(InputAction.CallbackContext context) {
+		bool isInteract = context.ReadValueAsButton();
+		if (isInteract) {
+			if(currHider != null) {
+				if (!isUseActiveHider) {
+					isUseActiveHider = true;
+					currHider.HidePlayer();
+				}
+			}
+		}
 	}
 
 	private void Move(Vector2 direction) {
@@ -84,6 +104,6 @@ public class Player : MonoBehaviour {
 	}
 
 	public bool IsHided() {
-		return usedHiders != 0;
+		return usedHiders != 0 || isUseActiveHider;
 	}
 }
