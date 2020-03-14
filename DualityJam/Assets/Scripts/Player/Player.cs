@@ -28,6 +28,7 @@ public class Player : MonoBehaviour {
 		}
 	}
 
+
 	public void FixedUpdate() {
 		Look(m_Look);
 		Move(m_Move);
