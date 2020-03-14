@@ -35,14 +35,6 @@ public class Player : MonoBehaviour {
 	}
 
 	private void Move(Vector2 direction) {
-		//rb.AddForce(new Vector3(m_Move.x, 0) * moveSpeed * Time.deltaTime);
-
-		//if (isGrounded && m_Move.y >= 0.5f) {
-		//	isGrounded = false;
-		//	rb.AddForce(new Vector2(0f, jumpForce));
-		//}
-
-
 		Vector3 targetVelocity = new Vector2(m_Move.x * moveSpeed, rb.velocity.y);
 		rb.velocity = Vector3.SmoothDamp(rb.velocity, targetVelocity, ref m_Velocity, .05f);
 
