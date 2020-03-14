@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PassiveHider : MonoBehaviour {
+public class ActiveHider : MonoBehaviour {
 	[SerializeField] GameObject tutorial;
-
+	
 	private void Awake() {
 		tutorial?.SetActive(false);
 	}
