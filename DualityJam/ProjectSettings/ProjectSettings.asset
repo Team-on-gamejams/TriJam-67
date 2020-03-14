@@ -669,7 +669,7 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLWasmStreaming: 0
   scriptingDefineSymbols:
-    1: ODIN_INSPECTOR
+    1: 
   platformArchitecture: {}
   scriptingBackend:
     Android: 0
@@ -766,6 +766,6 @@ PlayerSettings:
   projectName: GameTemplate
   organizationId: team-on
   cloudEnabled: 0
-  enableNativePlatformBackendsForNewInputSystem: 0
+  enableNativePlatformBackendsForNewInputSystem: 1
   disableOldInputManagerSupport: 0
   legacyClampBlendShapeWeights: 0
