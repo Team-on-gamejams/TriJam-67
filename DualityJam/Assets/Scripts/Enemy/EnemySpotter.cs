@@ -8,6 +8,9 @@ public class EnemySpotter : MonoBehaviour {
 	[SerializeField] float moveSpeed = 2.0f;
 	[SerializeField] bool isFacingRight = true;
 
+	[SerializeField] float maxSeeTime = 3.0f;
+	Coroutine seePlayerRoutine;
+
 	[SerializeField] string seeText = "I see you!";
 	[SerializeField] string notSeeText = "";
 
@@ -63,9 +66,29 @@ public class EnemySpotter : MonoBehaviour {
 
 	public void OnSpotPlayer() {
 		textField.text = seeText;
+		if(seePlayerRoutine == null) {
+			seePlayerRoutine = StartCoroutine(SeePlayerRoutine()); ;
+		}
 	}
 
 	public void OnPlayerHide() {
 		textField.text = notSeeText;
+		if (seePlayerRoutine != null) {
+			StopCoroutine(seePlayerRoutine);
+			seePlayerRoutine = null;
+		}
+	}
+
+	IEnumerator SeePlayerRoutine() {
+		float currSeeTime = 0.0f;
+
+		while(currSeeTime <= maxSeeTime) {
+			currSeeTime += Time.deltaTime;
+			textField.text = seeText + " "+ (maxSeeTime - currSeeTime).ToString("0.00");
+			yield return null;
+		}
+		yield return null;
+
+		GameManager.instance.player.Die();	
 	}
 }

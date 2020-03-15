@@ -120,4 +120,8 @@ public class Player : MonoBehaviour {
 	public bool IsHided() {
 		return usedHiders != 0 || isUseActiveHider;
 	}
+
+	public void Die() {
+		Application.LoadLevel(Application.loadedLevel);
+	}
 }
