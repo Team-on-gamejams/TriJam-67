@@ -11,14 +11,14 @@ public class PassiveHider : MonoBehaviour {
 
 	private void OnTriggerEnter2D(Collider2D collision) {
 		if (collision.tag == "Player") {
-			GameManager.instance.player.Hide();
+			GameManager.instance.player.Hide(this);
 			tutorial?.SetActive(true);
 		}
 	}
 
 	private void OnTriggerExit2D(Collider2D collision) {
 		if (collision.tag == "Player") {
-			GameManager.instance.player.UnHide();
+			GameManager.instance.player.UnHide(this);
 			tutorial?.SetActive(false);
 		}
 	}

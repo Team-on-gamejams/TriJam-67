@@ -41,7 +41,7 @@ public class EnemySpotter : MonoBehaviour {
 	}
 
 	private void OnCollisionEnter2D(Collision2D collision) {
-		if (collision.transform.tag == "Wall") {
+		if (collision.transform.tag == "EnemyFlipDirection") {
 			Flip();
 			prevVelosity = Vector3.zero;
 		}
@@ -55,13 +55,17 @@ public class EnemySpotter : MonoBehaviour {
 	private void Flip() {
 		isFacingRight = !isFacingRight;
 
-		Vector3 theScale = transform.localScale;
-		theScale.x *= -1;
-		transform.localScale = theScale;
+		LeanTween.cancel(gameObject, false);
+		LeanTween.value(transform.localScale.x, isFacingRight ? 1f : -1f, 0.2f)
+			.setOnUpdate((float scale)=> {
+				Vector3 theScale = transform.localScale;
+				theScale.x = scale;
+				transform.localScale = theScale;
 
-		theScale = textField.transform.localScale;
-		theScale.x *= -1;
-		textField.transform.localScale = theScale;
+				theScale = textField.transform.localScale;
+				theScale.x = scale;
+				textField.transform.localScale = theScale;
+			});
 	}
 
 	public void OnSpotPlayer() {

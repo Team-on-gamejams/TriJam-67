@@ -8,6 +8,7 @@ TagManager:
   - EnemySpotter
   - Wall
   - Management
+  - EnemyFlipDirection
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - Player
   - EnemySpot
   - EnemySpotArea
-  - 
+  - EnemyFlipDirection
   - 
   - 
   - 
@@ -59,4 +60,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 1726486095
+    locked: 0
+  - name: Foreground
+    uniqueID: 3034829421
     locked: 0

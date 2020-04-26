@@ -24,13 +24,14 @@ public class Player : MonoBehaviour {
 	bool isGrounded = true;
 	bool isFacingRight = true;
 
+	List<PassiveHider> passiveHiders = new List<PassiveHider>();
 	int usedHiders = 0;
 	bool isUseActiveHider = false;
 
 	void OnValidate() {
-		if(rb == null)
+		if (rb == null)
 			rb = GetComponent<Rigidbody2D>();
-		if(sp == null)
+		if (sp == null)
 			sp = GetComponent<SpriteRenderer>();
 	}
 
@@ -47,17 +48,13 @@ public class Player : MonoBehaviour {
 	void FixedUpdate() {
 		Look(m_Look);
 		Move(m_Move);
+		Debug.Log(usedHiders);
 	}
 
 	public void OnMove(InputAction.CallbackContext context) {
 		m_Move = context.ReadValue<Vector2>();
 		if (m_Move.y < 0)
 			m_Move.y = 0;
-		if (m_Move.sqrMagnitude > 0.5f && isUseActiveHider) {
-			isUseActiveHider = false;
-			currHider.UnHidePlayer();
-			sp.sortingLayerName = layerDefault;
-		}
 	}
 
 	public void OnLook(InputAction.CallbackContext context) {
@@ -67,12 +64,10 @@ public class Player : MonoBehaviour {
 	public void OnInteract(InputAction.CallbackContext context) {
 		bool isInteract = context.ReadValueAsButton();
 		if (isInteract) {
-			if(currHider != null) {
-				if (!isUseActiveHider) {
-					isUseActiveHider = true;
-					currHider.HidePlayer();
-					sp.sortingLayerName = layerHide;
-				}
+			if (currHider != null && !isUseActiveHider) {
+				isUseActiveHider = true;
+				currHider.HidePlayer();
+				sp.sortingLayerName = layerHide;
 			}
 		}
 	}
@@ -88,6 +83,12 @@ public class Player : MonoBehaviour {
 			Flip();
 		}
 
+		if (m_Move.sqrMagnitude > 0.5f && isUseActiveHider) {
+			isUseActiveHider = false;
+			currHider.UnHidePlayer();
+			sp.sortingLayerName = layerDefault;
+		}
+
 		if (isGrounded && m_Move.y >= 0.5f) {
 			isGrounded = false;
 			rb.AddForce(new Vector2(0f, jumpForce));
@@ -101,24 +102,36 @@ public class Player : MonoBehaviour {
 	private void Flip() {
 		isFacingRight = !isFacingRight;
 
-		Vector3 theScale = transform.localScale;
-		theScale.x *= -1;
-		transform.localScale = theScale;
+		LeanTween.cancel(gameObject, false);
+		LeanTween.value(transform.localScale.x, isFacingRight ? 1f : -1f, 0.2f)
+			.setOnUpdate((float scale) => {
+				Vector3 theScale = transform.localScale;
+				theScale.x = scale;
+				transform.localScale = theScale;
+			});
 	}
 
-	public void Hide() {
+	public void Hide(PassiveHider hider) {
+		if (passiveHiders.Contains(hider))
+			return;
 		++usedHiders;
+		passiveHiders.Add(hider);
 		sp.sortingLayerName = layerHide;
 	}
 
-	public void UnHide() {
+	public void UnHide(PassiveHider hider) {
+		if (!passiveHiders.Contains(hider))
+			return;
 		--usedHiders;
-		if(usedHiders == 0)
+		passiveHiders.Remove(hider);
+		if (usedHiders <= 0) {
 			sp.sortingLayerName = layerDefault;
+			usedHiders = 0;
+		}
 	}
 
 	public bool IsHided() {
-		return usedHiders != 0 || isUseActiveHider;
+		return usedHiders > 0 || isUseActiveHider;
 	}
 
 	public void Die() {
