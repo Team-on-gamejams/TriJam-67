@@ -7,6 +7,8 @@ public class GameManager : Singleton<GameManager> {
 	// guarantee this will be always a singleton only - can't use the constructor!
 	protected GameManager() { }
 
+	public static string buildNameString = "";
+
 	public Camera Camera { get {
 			if(mainCamera == null) 
 				mainCamera = Camera.main;

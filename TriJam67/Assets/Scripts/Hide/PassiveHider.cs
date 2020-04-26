@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PassiveHider : MonoBehaviour {
 	[SerializeField] GameObject tutorial;
+	[SerializeField] bool needSlowMoEndTrigger = false;
 
 	private void Awake() {
 		tutorial?.SetActive(false);
@@ -13,6 +14,8 @@ public class PassiveHider : MonoBehaviour {
 		if (collision.tag == "Player") {
 			GameManager.instance.player.Hide(this);
 			tutorial?.SetActive(true);
+			if (needSlowMoEndTrigger)
+				Time.timeScale = 0.05f;
 		}
 	}
 

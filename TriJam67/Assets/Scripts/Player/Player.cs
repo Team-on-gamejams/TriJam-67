@@ -105,7 +105,7 @@ public class Player : MonoBehaviour {
 		isFacingRight = !isFacingRight;
 
 		LeanTween.cancel(gameObject, false);
-		LeanTween.value(transform.localScale.x, isFacingRight ? 1f : -1f, 0.2f)
+		LeanTween.value(gameObject, transform.localScale.x, isFacingRight ? 1f : -1f, 0.2f)
 			.setOnUpdate((float scale) => {
 				Vector3 theScale = transform.localScale;
 				theScale.x = scale;

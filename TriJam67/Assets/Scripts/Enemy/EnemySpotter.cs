@@ -36,6 +36,10 @@ public class EnemySpotter : MonoBehaviour {
 		textField.text = notSeeText;
 	}
 
+	private void OnDestroy() {
+		LeanTween.cancel(gameObject, false);
+	}
+
 	public void FixedUpdate() {
 		Move(moveVector[isFacingRight ? 0 : 1]);
 	}
@@ -56,7 +60,7 @@ public class EnemySpotter : MonoBehaviour {
 		isFacingRight = !isFacingRight;
 
 		LeanTween.cancel(gameObject, false);
-		LeanTween.value(transform.localScale.x, isFacingRight ? 1f : -1f, 0.2f)
+		LeanTween.value(gameObject, transform.localScale.x, isFacingRight ? 1f : -1f, 0.2f)
 			.setOnUpdate((float scale)=> {
 				Vector3 theScale = transform.localScale;
 				theScale.x = scale;
