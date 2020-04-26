@@ -4,13 +4,14 @@ Theme: It's Late
 
 ![Cover](Screenshots/Cover.png)
 
-schoolboy was late for schools and make his way to class
+You are late for school and you need to find your way to the classroom so that no one from staff will see you
 
 # Downloads and Links
 Available in [Windows, OSX, Linux and Web](https://teamon.itch.io/this-world-definitely-need-a-hero-but-you-are-just-a-spear). If you encounter any problem, please leave a issue! 
 
 #  How to play
- * 
+ * A/D or arrows - move
+ * E - interact
 
 # What is TriJam?
 TriJam is a jam where your goal is to try and make something playable (and fun) in only 3 hours! How is that even possible, you ask? Well, just look at the history of previous TriJams and we're sure you'll be convinced that it is not only possible, but very manageable!
@@ -25,4 +26,3 @@ TriJam is a jam where your goal is to try and make something playable (and fun) 
 # Screenshots
 ![Screen1](Screenshots/1.jpg)  
 ![Screen1](Screenshots/2.jpg)  
-![Screen1](Screenshots/3.jpg)  
