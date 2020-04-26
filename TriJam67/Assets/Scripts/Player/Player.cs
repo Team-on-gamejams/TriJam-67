@@ -48,7 +48,6 @@ public class Player : MonoBehaviour {
 	void FixedUpdate() {
 		Look(m_Look);
 		Move(m_Move);
-		Debug.Log(usedHiders);
 	}
 
 	public void OnMove(InputAction.CallbackContext context) {
