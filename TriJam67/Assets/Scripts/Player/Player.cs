@@ -8,6 +8,8 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour {
 	[NonSerialized] public ActiveHider currHider;
 
+	[SerializeField] AudioSource source;
+
 	[SerializeField] string layerDefault = "Player";
 	[SerializeField] string layerHide = "PlayerHided";
 	[SerializeField] SortingLayer layer;
@@ -54,6 +56,7 @@ public class Player : MonoBehaviour {
 		m_Move = context.ReadValue<Vector2>();
 		if (m_Move.y < 0)
 			m_Move.y = 0;
+		source.volume = m_Move.sqrMagnitude >= 0.25f ? 1.0f : 0.0f;
 	}
 
 	public void OnLook(InputAction.CallbackContext context) {
