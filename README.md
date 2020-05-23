@@ -2,7 +2,7 @@
 [TriJam #67: The 3 hour game jam](https://itch.io/jam/trijam-67)  
 Theme: It's Late
 
-![Cover](Screenshots/Cover.png)
+![Cover](Screenshots/Cover.jpg)
 
 You are late for school and you need to find your way to the classroom so that no one from staff will see you
 
